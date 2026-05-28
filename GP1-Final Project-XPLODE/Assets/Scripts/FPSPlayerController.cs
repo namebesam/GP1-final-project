@@ -25,6 +25,7 @@ public class FPSPlayerController : MonoBehaviour
     bool readyToJump;
     public KeyCode jumpKey = KeyCode.Space;
     private int jumpsLeft = 1; // change to 1 for double jump
+    private bool jumpRequested = false;
 
     //slope movement stuff
     public float maxSlopeAngle;
@@ -34,6 +35,7 @@ public class FPSPlayerController : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    
 
     // Start is called before the first frame update
     private void Start()
@@ -48,15 +50,11 @@ public class FPSPlayerController : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (Input.GetKeyDown(jumpKey) && readyToJump && grounded)
         {
-            readyToJump = false;
-
-            Jump();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
+            jumpRequested = true;
         }
-
+    
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -109,6 +107,14 @@ public class FPSPlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (jumpRequested && grounded)
+        {
+            readyToJump = false;
+            Jump();
+            Invoke(nameof(ResetJump), jumpCooldown);
+            jumpRequested = false;
+        }
+
         MovePlayer();
     }
 
@@ -134,7 +140,7 @@ public class FPSPlayerController : MonoBehaviour
 
     void SpeedControl() //caps max speed [ONLY USE IF ABSOLUTELY NECESSARY]
     {
-        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f * rb.linearVelocity.z);
+        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f,  rb.linearVelocity.z);
 
         //limit velocity when needed
         if (flatVel.magnitude > moveSpeed)

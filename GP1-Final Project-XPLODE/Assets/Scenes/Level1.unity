@@ -3397,7 +3397,7 @@ Transform:
   m_GameObject: {fileID: 1750649790}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.05, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3564,10 +3564,10 @@ MonoBehaviour:
   groundDistance: 0.4
   groundDrag: 4
   jumpForce: 7
-  jumpCooldown: 1
+  jumpCooldown: 0.1
   airMultiplier: 0.25
   jumpKey: 32
-  maxSlopeAngle: 45
+  maxSlopeAngle: 90
   playerHeight: 2
 --- !u!114 &1750649796
 MonoBehaviour:
